@@ -38,7 +38,12 @@ This project loads `pure-spark.conf` via pureconfig and prints its content to st
 3. Copy the resulting `pure-spark-2.2.0-assembly.jar` and `pure-spark.conf.jar` to your cluster
 4. Run the job in client mode. You may need to adapt this line depending on whether you have a YARN cluster and whether `spark-submit` is in your path.
 ```
-spark-submit --jars pure-spark.conf.jar --master yarn --deploy-mode client pure-spark-2.2.0-assembly.jar /tmp/pure-spark/conf
+spark-submit \
+  --deploy-mode client \
+  --master yarn \
+  --class example.PureSpark \
+  --jars pure-spark.conf.jar \
+  pure-spark-2.2.0-assembly.jar /tmp/pure-spark/conf
 ```
 5. Stdout and `cat /tmp/pure-spark/conf*/*` should both display something like:
 ```
@@ -47,7 +52,12 @@ Success(AppConf(DbConf(jim,MASKED,place,time)))
 ```
 6. Run the job in cluster mode. You may need to adapt this line depending on whether you have a YARN cluster and whether `spark-submit` is in your path. You'll also need some sort of shared file system path for the logged results to be written to.
 ```
-spark-submit --jars pure-spark.conf.jar --master yarn --deploy-mode cluster pure-spark-2.2.0-assembly.jar <shared file system path>
+spark-submit \
+  --deploy-mode cluster \
+  --master yarn \
+  --class example.PureSpark \
+  --jars pure-spark.conf.jar \
+  pure-spark-2.2.0-assembly.jar <shared file system path>
 ```
 7. View the output on `<shared file system path>`
 
