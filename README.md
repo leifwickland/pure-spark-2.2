@@ -50,3 +50,9 @@ Success(AppConf(DbConf(jim,MASKED,place,time)))
 spark-submit --jars pure-spark.conf.jar --master yarn --deploy-mode cluster pure-spark-2.1.0-assembly.jar <shared file system path>
 ```
 7. View the output on `<shared file system path>`
+
+## Shading
+
+Note that it's required to shade the shapeless classes. ["Shading"](https://softwareengineering.stackexchange.com/a/351091/124277) includes a JAR in the assembly after renaming the package all of its classes and the references to those classes, so that the dependency doesn't conflict with one loaded early in the classpath by the framework (spark) executing the assembly. Pureconfig depends on a newer version of shapeless than is included in Spark 2.1. 
+
+Please ensure you include something like the [assemblyShadeRules](https://github.com/leifwickland/pure-spark-2.1/blob/1f642231e29403a952ba9dbddc049b1fa3c429c8/build.sbt#L15) in your build.
