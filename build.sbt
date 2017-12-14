@@ -12,11 +12,4 @@ libraryDependencies ++= Seq(
   pureconfig)
 
 assemblyJarName in assembly := s"pure-spark-$sparkVersion-assembly.jar"
-assemblyMergeStrategy in assembly := {
-  case PathList("fim", "eventbus", xs@_*) => MergeStrategy.first
-  case PathList("fim", "event", xs@_*) => MergeStrategy.first
-  case x =>
-    val oldStrategy = (assemblyMergeStrategy in assembly).value
-    oldStrategy(x)
-}
 assemblyShadeRules in assembly := Seq(ShadeRule.rename("shapeless.**" -> "new_shapeless.@1").inAll)
